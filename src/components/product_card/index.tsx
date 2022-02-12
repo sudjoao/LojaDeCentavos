@@ -1,16 +1,22 @@
 import { IProduct } from "../../pages/products";
-import { ProductCardContainer, ProductImage, ProductPrice, ProductTitle } from "./styles";
+import { ProductCardContainer, ProductImage, ProductPrice, ProductPriceBadge, ProductTitle } from "./styles";
 
 
 export default function ProductCard(product: IProduct){
     const getPrice = () => {
-        return (product.price/100).toFixed(2);
+        let price = product.price;
+        while(price > 1){
+            price/=10;
+        }
+        return price.toFixed(2);
     }
     return(
         <ProductCardContainer>
             <ProductTitle>{product.title}</ProductTitle>
             <ProductImage src={product.image}/>
-            <ProductPrice>${getPrice()}</ProductPrice>
+            <ProductPriceBadge>
+                <ProductPrice>${getPrice()}</ProductPrice>
+            </ProductPriceBadge>
         </ProductCardContainer>
     )
 }

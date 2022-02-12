@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../../components/product_card";
 import {api} from "../../services/api";
+import { ProductPageContainer, ProductListTitle, ProductListWrap } from "./styles";
 
 export interface IProduct {
     id: number;
@@ -22,10 +23,13 @@ export default function ProductPage(){
         fetchProducts();
     },[])
     return(
-        <div>
-            {products.map(product => (
-                <ProductCard {...product} key={product.id} />
-            ))}
-        </div>
+        <ProductPageContainer>
+            <ProductListTitle>Produtos</ProductListTitle>
+            <ProductListWrap>
+                {products.map(product => (
+                    <ProductCard {...product} key={product.id} />
+                    ))}
+            </ProductListWrap>
+        </ProductPageContainer>
     );
 }
