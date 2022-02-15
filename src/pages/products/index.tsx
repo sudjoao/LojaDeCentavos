@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import ProductCard from "../../components/product_card";
 import {api} from "../../services/api";
-import { ProductPageContainer, ProductListTitle, ProductListWrap } from "./styles";
+import { ProductPageContainer, ProductListTitle, ProductListWrap, LoadingIndicator } from "./styles";
 
 export interface IProduct {
     id: number;
@@ -13,11 +14,12 @@ export interface IProduct {
 
 export default function ProductPage(){
     const [products, setProducts] = useState<IProduct[]>([]);
+    const [isLoanding, setIsLoading] = useState(true);
 
     const fetchProducts = async () => {
         let response = await api.get("products");
-        console.log(response.data);
         setProducts(response.data);
+        setIsLoading(false);
     }
     useEffect(()=>{
         fetchProducts();
@@ -25,11 +27,15 @@ export default function ProductPage(){
     return(
         <ProductPageContainer>
             <ProductListTitle>Produtos</ProductListTitle>
+            {
+            isLoanding?
+            <LoadingIndicator /> :
             <ProductListWrap>
                 {products.map(product => (
                     <ProductCard {...product} key={product.id} />
                     ))}
             </ProductListWrap>
+            }
         </ProductPageContainer>
     );
 }
